@@ -1,0 +1,4 @@
+- insert:
+    - id: kira-note
+      name: 'kira-note'
+      config: {}

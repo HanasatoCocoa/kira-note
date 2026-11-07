@@ -1,0 +1,32 @@
+# 依赖
+node_modules/
+
+# 只给本机 agent 看的四件套：别人装插件不需要它们，不进公开仓库
+# （文件仍留在工作目录里，供本机会话与 init.sh 使用；`git clean -xfd` 会连它们一起删）
+/AGENTS.md
+/init.sh
+/feature_list.json
+/任务状态.md
+
+# 本地运行数据：插件真实写在 ~/.kira-note，这里只防 cwd 内残留
+.kira-note/
+*.log
+
+# 构建 / 测试产物（lib/client.js 是入库产物，见 AGENTS.md）
+coverage/
+*.tmp
+*.bak
+*.swp
+preview.html
+preview.png
+
+# 编辑器与系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 机密（本包用不到，防手滑）
+.env
+.env.*

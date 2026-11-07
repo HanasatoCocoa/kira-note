@@ -1,0 +1,165 @@
+/* Host-page chrome and the few pieces the reference mock did not need. */
+
+.kira-page {
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+  box-sizing: border-box;
+  overflow: hidden;
+  background: var(--kira-desk, transparent);
+}
+
+.kira-page > .kira-panel {
+  width: min(1600px, 100%);
+}
+
+/* Sidebar icon row: the sidebar owns the button, we only paint the mark. */
+.kira-nav {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  color: inherit;
+}
+
+.kira-nav[data-active="true"] {
+  box-shadow: 0 0 0 2px currentColor;
+}
+
+.kira-nav-dot {
+  position: absolute;
+  top: -2px;
+  right: -3px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4f46e5;
+  box-shadow: 0 0 0 1.5px var(--kira-cover, #292524);
+}
+
+.kira-panel .right {
+  min-width: 0;
+}
+
+.kira-panel .journal {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--rule);
+}
+
+.kira-panel .journal-row {
+  display: grid;
+  grid-template-columns: 118px minmax(0, 1.2fr) 74px 96px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  min-height: 36px;
+  padding: 6px 4px;
+  border-bottom: 1px solid var(--rule);
+  font-size: 12px;
+}
+
+.kira-panel .journal-time {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--soft);
+}
+
+.kira-panel .journal-cell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kira-panel .journal-cell.mono {
+  font-family: var(--mono);
+  font-size: 10.5px;
+}
+
+.kira-panel .journal-cell.soft {
+  color: var(--soft);
+  font-family: var(--mono);
+  font-size: 10px;
+}
+
+.kira-panel .picklist {
+  max-height: 300px;
+  overflow-y: auto;
+  margin: 4px 0 14px;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  background: var(--block);
+  padding: 4px;
+}
+
+.kira-panel .pickrow {
+  width: 100%;
+  min-height: 34px;
+  border: 0;
+  background: transparent;
+  border-radius: 5px;
+  padding: 0 9px;
+  font-size: 13px;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  text-align: left;
+}
+
+.kira-panel .pickrow:hover {
+  background: var(--hover);
+}
+
+.kira-panel .pickrow .r {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--soft);
+  flex: none;
+}
+
+.kira-panel .loading-veil {
+  position: absolute;
+  inset: 54px 0 30px;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--desk) 72%, transparent);
+  color: var(--soft);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  z-index: 40;
+}
+
+.kira-panel[data-narrow="true"] .notebook {
+  flex-direction: column;
+}
+
+.kira-panel[data-narrow="true"] .splitter {
+  display: none;
+}
+
+.kira-panel[data-narrow="true"] .left {
+  width: 100%;
+  max-width: none;
+  flex: 0 0 52%;
+  border-right: 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+@media (max-width: 820px) {
+  .kira-page {
+    padding: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kira-page *,
+  .kira-page *::before,
+  .kira-page *::after {
+    animation-duration: 0ms !important;
+    transition-duration: 0ms !important;
+  }
+}

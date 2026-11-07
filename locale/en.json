@@ -1,0 +1,14 @@
+{
+  "meta": {
+    "title": "Kira Note",
+    "description": "A reviewable notebook of durable user and workspace memories, injected into every conversation and searchable on demand."
+  },
+  "nav": { "title": "Kira Note" },
+  "panel": {
+    "title": "Kira Note",
+    "tabMemory": "Memories",
+    "tabReview": "Review",
+    "tabInjection": "Injection log",
+    "close": "Close Kira Note"
+  }
+}

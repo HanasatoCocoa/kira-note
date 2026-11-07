@@ -1,0 +1,14 @@
+{
+  "meta": {
+    "title": "Kira Note",
+    "description": "可审阅的长期记忆笔记本：记住用户与工作区的稳定事实，每轮注入对话，也可随时检索。"
+  },
+  "nav": { "title": "Kira Note" },
+  "panel": {
+    "title": "Kira Note",
+    "tabMemory": "记忆",
+    "tabReview": "审阅",
+    "tabInjection": "Kira 注入记录",
+    "close": "关闭 Kira Note"
+  }
+}
