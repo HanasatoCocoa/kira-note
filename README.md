@@ -39,21 +39,18 @@ Kira Note 把这件事拆成三个可以分开检查的部分：
 
 ```sh
 git clone <仓库地址> kira-note
+DSH_CLI="<DSH 安装目录>/resources/runtime/cli/bin/dsh.cmd"
+"$DSH_CLI" plugin --profile desktop add "$(pwd)/kira-note"
 ```
 
-先完全退出 DSH 桌面版：这条路直接把参数交给 pnpm，不经过宿主那把 profile 写锁。`dsh` 不在 PATH 上，用安装目录里的 CLI：
+先完全退出 DSH 桌面版：这条路直接把参数交给 pnpm，不经过宿主那把 profile 写锁。`<DSH 安装目录>` 是应用安装位置，`dsh` 本身不在 PATH 上。下面 `<本地仓库目录>` 指克隆出来的 `kira-note` 文件夹；目标必须是绝对路径（pnpm 在 profile 目录里跑），`$(pwd)` 负责展开。
 
-```sh
-"C:/Users/<你>/AppData/Local/Programs/DeepSeek Harness/resources/runtime/cli/bin/dsh.cmd" \
-  plugin --profile desktop add "D:/path/to/kira-note"
-```
-
-本地目录会记成 `"kira-note": "link:D:/path/to/kira-note"`，之后改源码不必重装。装完重启 `dsh`：`package.json` 里的 `dsh.bundle.patch` 指向 `cordis.patch.yml`，补丁在启动时加载。
+本地目录会记成 `"kira-note": "link:<本地仓库目录>"`，之后改源码不必重装。装完重启 `dsh`：`package.json` 里的 `dsh.bundle.patch` 指向 `cordis.patch.yml`，补丁在启动时加载。
 
 在 DSH 会话里也可以用内置工具装，同样写 profile 依赖与 bundle 列表：
 
 ```
-plugin_manager action=install_bundle target=<绝对路径>/kira-note
+plugin_manager action=install_bundle target=<本地仓库目录>
 ```
 
 ### 升级
@@ -69,8 +66,8 @@ plugin_manager action=set_plugin target=include:kira-note
 ### 卸载
 
 ```sh
-"C:/Users/<你>/AppData/Local/Programs/DeepSeek Harness/resources/runtime/cli/bin/dsh.cmd" \
-  plugin --profile desktop remove kira-note
+DSH_CLI="<DSH 安装目录>/resources/runtime/cli/bin/dsh.cmd"
+"$DSH_CLI" plugin --profile desktop remove kira-note
 ```
 
 `remove` 同时删掉 profile 依赖与 bundle 列表里的那一行，重启后生效。`~/.kira-note/` 里的数据不会被动；要清空记忆就手动删除该目录。
