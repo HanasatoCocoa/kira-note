@@ -83,6 +83,28 @@
       return `- [${entry.id}] ${summary}${tail}｜类型:${entry.type}`;
     }
 
+    /** Only the fields a human actually touched; every key here becomes exactly one event on the Host. */
+    function changedFields(entry, next) {
+      const changes = {};
+      if (next.title !== String(entry.title ?? '')) changes.title = next.title;
+      if (next.summary !== String(entry.summary ?? '')) changes.summary = next.summary;
+      if (next.type !== entry.type) changes.type = next.type;
+      if (!sameList(next.triggers ?? [], entry.triggers ?? [])) changes.triggers = next.triggers ?? [];
+      if (next.body !== String(entry.body ?? '').trim()) changes.body = next.body;
+      const currentFrom = entry.valid_from ? String(entry.valid_from).slice(0, 10) : null;
+      const currentUntil = entry.valid_until ? String(entry.valid_until).slice(0, 10) : null;
+      const nextFrom = next.validFrom ? String(next.validFrom).slice(0, 10) : null;
+      const nextUntil = next.validUntil ? String(next.validUntil).slice(0, 10) : null;
+      if (nextFrom !== currentFrom) changes.valid_from = nextFrom;
+      if (nextUntil !== currentUntil) changes.valid_until = nextUntil;
+      return changes;
+    }
+
+    function sameList(a, b) {
+      if (a.length !== b.length) return false;
+      return a.every((item, at) => item === b[at]);
+    }
+
     function countOr(value, fallback = 0) {
       const number = Number(value);
       return Number.isFinite(number) ? number : fallback;
@@ -727,7 +749,23 @@
             const fresh = await this.api.detail(detail.entry.id);
             expectedUpdated = fresh.entry.updated;
           }
-          const result = await this.api.update({ ...payload, id: detail.entry.id, expectedUpdated });
+          /* Send only what actually differs: an untouched body or validity field must not
+             become an `update.*` event (one edit = one event). */
+          const changes = changedFields(detail.entry, {
+            title,
+            summary,
+            type: draft.type,
+            triggers: draft.triggers,
+            body,
+            validFrom: draft.currentlyValid ? (detail.entry.valid_from ?? todayIso()) : from,
+            validUntil: draft.currentlyValid ? null : until,
+          });
+          if (Object.keys(changes).length === 0) {
+            this.patch({ busy: false, editing: false, draft: null, datePop: null });
+            this.notice(t.noChange);
+            return;
+          }
+          const result = await this.api.update({ ...changes, id: detail.entry.id, expectedUpdated });
           this.patch({ busy: false, editing: false, draft: null, datePop: null });
           if (result.changed === false) {
             this.notice(t.noChange);

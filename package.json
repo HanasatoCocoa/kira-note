@@ -1,6 +1,6 @@
 {
   "name": "kira-note",
-  "version": "1.0.0",
+  "version": "0.1.0-alpha",
   "private": true,
   "type": "module",
   "description": "Kira Note: durable, reviewable long-term memory for DeepSeek Harness, with a notebook panel in the sidebar.",

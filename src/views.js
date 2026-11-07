@@ -1298,8 +1298,12 @@
       }, [controller, onExit, state.dialog, state.datePop, state.menu, state.editing, state.detail, state.selectedId]);
 
       useEffect(() => {
-        const onPointerDown = () => {
-          if (state.menu !== null) controller.closeMenu();
+        const onPointerDown = (event) => {
+          if (state.menu === null) return;
+          // A press inside the menu must not unmount it before its click fires.
+          const target = event.target;
+          if (target !== null && typeof target.closest === 'function' && target.closest('.ctx') !== null) return;
+          controller.closeMenu();
         };
         window.addEventListener('pointerdown', onPointerDown);
         return () => window.removeEventListener('pointerdown', onPointerDown);
