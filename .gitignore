@@ -8,6 +8,9 @@ node_modules/
 /feature_list.json
 /任务状态.md
 
+# 开发版 README（旧版原文，含面板细节与本机脚本说明）：同上，只给本机看
+/docs/DEVELOPMENT.md
+
 # 本地运行数据：插件真实写在 ~/.kira-note，这里只防 cwd 内残留
 .kira-note/
 *.log

@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "description": "Kira Note: durable, reviewable long-term memory for DeepSeek Harness, with a notebook panel in the sidebar.",
+  "license": "MIT",
   "scripts": {
     "build": "node scripts/build-client.mjs",
     "test": "node --test test/"
